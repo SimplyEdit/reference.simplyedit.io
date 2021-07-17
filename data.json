@@ -1,0 +1,1451 @@
+{
+	"/": {
+		"meta title": "Reference",
+		"chapters": [
+			{
+				"title": "Introduction",
+				"topics": [
+					{
+						"contents": [
+							{
+								"text": "<p>SimplyEdit is a tool to build websites and web application user interfaces. It allows you to create an easy to use interface to edit websites or enter data. Most of this can be done without programming, you only need to add a few attributes in your HTML.</p><p>SimplyEdit divides your data into two concepts: fields and lists. A field can be any HTML element. When using SimplyEdit to edit a website, a field is any part of a webpage that is meant to be editable.</p><p>A list can also be any HTML element. But a list can contain any number of entries. Each entry can contain fields, or further lists. A list is comparable to an array of objects.</p><p>Unlike most other systems, SimplyEdit doesn't require you to define a model or schema for your data. Instead SimplyEdit reads your HTML and figures out what your data model or schema is from the attributes in the HTML.</p><p>You can still change the HTML without changing your data model, if you keep the nesting of lists and fields, and their names, identical. This is usually more than enough freedom to create completely different layouts for the same data.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "Basic Concepts"
+					}
+				]
+			},
+			{
+				"title": "Settings",
+				"topics": [
+					{
+						"contents": [
+							{
+								"text": "<p>The most important settings for SimplyEdit are set as attributes on the `&lt;script&gt;` tag:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "&lt;script src=\"//cdn.simplyedit.io/1/simply-edit.js\"\n   data-api-key = \"your-key-1234\"\n   data-simply-images      = \"/img/\"\n   data-simply-files       = \"/files/\"\n   data-simply-storage     = \"myStorage\"\n   data-simply-endpoint    = \"/\"\n   data-simply-settings    = \"mySettings\"\n   data-simply-datasources = \"myDataSources\"\n&gt;&lt;/script&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>In addition you can specify settings for specific plugins and toolbars using the variable specified in data-simply-settings, e.g.:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "&lt;script&gt;\n    window.mySettings = {\n    }\n&lt;/script&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Some storage engines can have extra atributes. E.g. github uses:<br></p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "&lt;script src=\"//cdn.simplyedit.io/1/simply-edit.js\"\n   data-api-key = \"your-key-1234\"\n   data-simply-storage = \"github\"\n   data-simply-repo-user = \"SimplyEdit\"\n   data-simply-repo-name = \"spectral\"\n   data-simply-repo-branch = \"gh-pages\"\n&gt;&lt;/script&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>You can read more about the different storage engines in the Storage section.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "Script attributes"
+					},
+					{
+						"title": "simply-text-selection and simply-text-cursor",
+						"contents": [
+							{
+								"text": "<p>The text toolbar allows you to specify which block and inline tags to list. Both text toolbars use the same style configuration, but you must specify both of them:<br></p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "var textSettings = {\n    block: [\n        { tag: 'h2', name: 'Heading 2' },\n        { tag: 'p.summary', name: 'Summary' }\n    ],\n    inline: [\n        { tag: 'strong', name: 'Bold', icon: 'fa-bold' }\n    ]\n};\n\nvar mySettings = {\n    'simply-text-cursor': textSettings,\n    'simply-text-selection': textSettings\n};",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>In addition you can specify sets of classes, where the user may select one per set. Each set works like a set of radio buttons:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "var textSettings = {\n    'style': [\n         {\n             description: 'Color',\n             selector: '*',\n             styles: [\n                 {'class':'red', name: 'Red', icon: 'fa-paint-brush'},\n                 {'class':'green', name: 'Green', icon: 'fa-paint-brush'},\n                 {'class':'blue', name: 'Blue', icon: 'fa-paint-brush'}\n             ]\n         },{\n             description: 'Emphasis',\n             selector: 'h1,h2,h3,p',\n             styles: [\n                 {'class':'highlight', name: 'Highlight', icon: 'fa-sun-o'},\n                 {'class':'lowlight', name: 'Lowlight', icon: 'fa-moon-o'}\n             ]\n         }\n    ]\n};",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Each style entry has a description, which will be shown in the popup toolbar. It has a selector, which is checked against the current selection. The styles are only shown when the current selection matches the selector.<br></p>"
+							}
+						]
+					},
+					{
+						"title": "simply-image",
+						"contents": [
+							{
+								"text": "<p>The image toolbar also supports sets of classes, just like the text toolbars:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "var mySettings = {\n    'simply-image': {\n        'style' : [\n            {\n                description: 'Border',\n                selector: 'img',\n                styles: [\n                    {'class': 'shadow', name: 'Shadow', icon: 'fa-moon-o'},\n                    {'class': 'border', name: 'Border', icon: 'fa-square-o'}\n                ]\n            }\n        ]\n    }\n};",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>In addition, you can setup SimplyEdit to automatically use responsive images. This means that all images your users upload will be scaled to the sizes you specify. SimplyEdit will automatically choose the best fitting image size to display for each individual image. This requires you to also load the image scaler plugin:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "var mySettings = {\n    'simply-image' : {\n        'responsive' : {\n            'sizes' : [ 1024, 720, 640, 320, 160 ]\n        }\n    },\n   'plugins' : [ 'plugin.simply-scaler.html' ]\n};",
+								"data-simply-template": "code"
+							}
+						]
+					},
+					{
+						"title": "Page templates",
+						"contents": [
+							{
+								"text": "<p>SimplyEdit is a simple content management system. It allows you to create new pages. Each page can have a different template. A template is just a HTML file. You can tell SimplyEdit which page templates there are like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "var mySettings = {\n    'pageTemplates': {\n        'templates': [\n             {name: 'Default', template: 'index.html'},\n             {name: 'Blog post', template: 'blog.html'}\n        ]\n     }\n};",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>The default location for templates is in your site root in the <code>templates/</code> subdirectory.</p>"
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Attributes",
+				"topics": [
+					{
+						"contents": [
+							{
+								"code": "&lt;h1 data-simply-field=\"title\"&gt;Title&lt;/h1&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Makes an HTML element editable in the browser in editmode. It also adds the contents to the data store. This means that you can change the contents of the field in javascript simply by changing the javascript object, like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "editor.pageData.title.innerHTML = 'New Title';",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>This attribute can be set on any HTML element. Depending on which HTML element, it will expect and set different properites:</p><ul><li><code>*</code>: innerHTML</li><li><code>A</code>: href, name, target, newwindow, nofollow and innerHTML</li><li><code>IMG</code>: src, class, alt and title</li><li><code>INPUT[type=\"text\"]</code>: value<br></li><li><code>INPUT[type=\"hidden\"]</code>: value</li><li><code>INPUT[type=\"number\"]</code>: value</li><li><code>INPUT[type=\"radio\"]</code>: checked, value, simplyData*</li><li><code>INPUT[type=\"checkbox\"]</code>: checked<br></li><li><code>SELECT</code>: value, simplyValue*</li><li><code>SELECT[multiple]</code>: selectedOptions, simplyValue*</li><li><code>OPTION</code>: value, innerHTML</li><li><code>TEXTAREA</code>: value</li><li><code>IFRAME</code>: src</li><li><code>META</code>: content</li></ul><p>Fields may not contain other fields, except when using <code>data-simply-content=\"fixed\"</code>.</p><p>Fields with the same name on the same page will always have the same content. Except when the field is part of a list entry, or if you\u2019ve specified a different path with <code>data-simply-path</code>.</p><p>A field name may contain any valid character for HTML attributes, including spaces. But the <code>.</code> character has a specific meaning, it will assume everything before the <code>.</code> is the name of an object and after the <code>.</code> is a property of that object.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-field"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;a data-simply-field=\"link\" data-simply-content=\"fixed\"&gt;\n  &lt;img data-simply-field=\"image\"&gt;\n&lt;/a&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Tells SimplyEdit what kind of content the field may contain. Expects one of the following values:</p><ul><li><code>text</code>&nbsp;Allow only pure text inside this field.</li><li><code style=\"font-weight: normal;\">fixed</code> Only attributes on the element are editable. The innerHTML will not be set or updated.</li><li><code>attributes</code> Only make the attributes of the element editable. By default all attributes will be stored. You can override this with the data-simply-attributes attribute.</li><li><code>template</code> The value of the field will be used to select a template. The template name must match the value of the field. If the field is not available in the data store yet, you can set a default value with the data-simply-default-value attribute.</li></ul>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-content"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;button data-simply-field=\"product\" data-simply-content=\"attributes\"\n        data-simply-attributes=\"data-item-id data-item-name data-item-price\"\n&gt;Buy Now&lt;/button&gt;\n&lt;div data-simply-field=\"product.data-item-id\"&gt;1&lt;/div&gt;\n&lt;div data-simply-field=\"product.data-item-name\"&gt;Name&lt;/div&gt;\n&lt;div data-simply-field=\"product.data-item-price\"&gt;99&lt;/div&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Used in combination with <code>data-simply-content=\"attributes\"</code>, this allows you to specify which attributes are databound using SimplyEdit. The example above shows how you can use this to edit specific attributes. Each <code>div</code> above is bound to a specific attribute value. By changing the content of the <code>div</code>, you change the value of the attribute in the <code>button</code> as well.</p><p>You can also change the attributes in javascript, like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "editor.pageData.product['data-item-name'] = 'A splendid product';",
+								"data-simply-template": "code"
+							}
+						],
+						"title": "data-simply-attributes"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;input type=\"radio\" name=\"size\" value=\"small\" data-simply-field=\"size\"&gt;Small\n&lt;input type=\"radio\" name=\"size\" value=\"large\" data-simply-field=\"size\"&gt;Large\n&lt;div data-simply-field=\"size\" data-simply-content=\"template\"&gt;\n        &lt;template data-simply-template=\"small\"&gt;\n                Small size selected\n        &lt;/template&gt;\n        &lt;template data-simply-template=\"large\"&gt;\n                Large size selected\n        &lt;/template&gt;\n&lt;/div&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Used in combination with <code>data-simply-content=\"template\"</code>, this allows you to specify which template to use for the content of the current html element. The value of the field is matched with the name of the templates listed in the field. In this case radio buttons are used to select the specific template.&nbsp;</p><p>You can also change the template in javascript like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "editor.pageData.size = 'small';",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>If no template is specified, nothing is shown. You can specify a default value in the HTML like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "&lt;div data-simply-field=\"size\" data-simply-content=\"template\" \n     data-simply-default-value=\"small\"&gt;",
+								"data-simply-template": "code"
+							}
+						],
+						"title": "data-simply-template"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;ul data-simply-list=\"items\"&gt;\n  &lt;template&gt;\n    &lt;li&gt;\n      &lt;a data-simply-field=\"entry\"&gt;Entry&lt;/a&gt;\n    &lt;/li&gt;\n  &lt;/template&gt;\n&lt;/ul&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Specifies the content is a list of items. Each item can have multiple fields. One or more templates may be defined for the items. If a specific template is selected for an item, the template name will be stored inside the item as data-simply-template. When rendering the list, if no matching template is found, the first template specified will be used.</p>"
+							},
+							{
+								"code": "&lt;dl data-simply-list=\"items\"&gt;\n  &lt;template data-simply-template=\"topic\"&gt;\n    &lt;dt data-simply-field=\"entry\"&gt;Topic&lt;/dt&gt;\n  &lt;/template&gt;\n  &lt;template data-simply-template=\"definition\"&gt;\n    &lt;dd data-simply-field=\"entry\"&gt;Definition&lt;/dd&gt;\n  &lt;/template&gt;\n&lt;/dl&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>In this example you can choose to add a topic (<code>dt</code>) or definition (<code>dd</code>) in a list. The resulting structure will look like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "\"items\": [\n  {\n    \"data-simply-template\": \"topic\",\n    \"entry\": {\n      \"innerHTML\": \"A Topic\"\n    }\n  },\n  {\n    \"data-simply-template\": \"definition\",\n    \"entry\": {\n      \"innerHTML\": \"A definition of this topic\"\n    }\n  }\n]",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Lists may be nested inside other lists:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;ul data-simply-list=\"menu\"&gt;\n  &lt;template data-simply-template=\"item\"&gt;\n    &lt;li&gt;\n      &lt;a data-simply-field=\"item\"&gt;Item&lt;/a&gt;\n    &lt;/li&gt;\n  &lt;/template&gt;\n  &lt;template data-simply-template=\"submenu\"&gt;\n    &lt;li&gt;\n      &lt;a data-simply-field=\"submenu item\"&gt;Submenu&lt;/a&gt;\n      &lt;ul data-simply-list=\"menu\"&gt;\n        &lt;template data-simply-template=\"item\"&gt;\n          &lt;li&gt;\n            &lt;a data-simply-field=\"item\"&gt;Item&lt;/a&gt;\n          &lt;/li&gt;\n        &lt;/template&gt;\n      &lt;/ul&gt;\n    &lt;/li&gt;\n  &lt;/template&gt;\n&lt;/ul&gt;"
+							}
+						],
+						"title": "data-simply-list"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;ul data-simply-list=\"items\" data-simply-sortable&gt;\n  &lt;template&gt;\n    &lt;li&gt;\n      &lt;a data-simply-field=\"entry\"&gt;Entry&lt;/a&gt;\n    &lt;/li&gt;\n  &lt;/template&gt;\n&lt;/ul&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Only valid in combination with <code>data-simply-list</code>, this tells SimplyEdit to allow the editor to drag and drop entries within the list.</p>"
+							}
+						],
+						"title": "data-simply-sortable"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;article data-simply-list=\"sections\"&gt;\n  &lt;template data-simply-template=\"text\"&gt;\n    &lt;section class=\"text\" data-simply-field=\"text\"&gt;&lt;/section&gt;\n  &lt;/template&gt;\n  &lt;template data-simply-template=\"heading\"&gt;\n    &lt;h2 class=\"heading\" data-simply-field=\"heading\"&gt;&lt;/h2&gt;\n  &lt;/template&gt;\n&lt;/article&gt;\n",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Only valid inside a <code>data-simply-list</code>, or a <code>data-simply-field</code> with <code>data-simply-content=\"template\"</code>. This specified the name of the template. This is used to select and to store the selected template. If you have more than one template, this attribute is required and must be unique within the same list or field.</p>"
+							}
+						],
+						"title": "data-simply-template"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;template data-simply-template=\"text\" data-simply-icon=\"font\"&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>This tells SimplyEdit which icon to show in the toolbars when selecting a template. Any icon from Font Awesome 4 can be used.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-icon"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;section class=\"blog\" data-simply-list=\"blog\" data-simply-data=\"rss\"&gt;\n  &lt;template&gt;\n    &lt;article&gt;\n      &lt;h1 data-simply-field=\"title\"&gt;Title&lt;/a&gt;\n      &lt;p data-simply-field=\"description\"&gt;Description&lt;/p&gt;\n      &lt;p&gt;&lt;a data-simply-field=\"link\"&gt;link&lt;/a&gt;&lt;/p&gt;\n    &lt;/article&gt;\n  &lt;/template&gt;\n&lt;/section&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Connects a list to a data source. Read the chapter Data Sources for more information on their use.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-data"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;select data-simply-list=\"years\" data-simply-entry=\"year\"&gt;\n    &lt;template&gt;\n        &lt;option data-simply-field=\"year\"&gt;2017&lt;/option&gt;\n    &lt;/template&gt;\n&lt;/select&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"code": "editor.pageData.years = [ 2015, 2016, 2017 ];",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Specifies which name to use for direct values of an array. In this case the years array is a simple list of values, not objects. So <code>data-simply-entry=\"year\"</code> tells SimplyEdit to match the field <code>year</code>&nbsp;with the full entry in the array.</p>"
+							}
+						],
+						"title": "data-simply-entry"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>This attribute is set automatically by SimplyEdit on each item in a list. It can be used to prefill a list in your HTML. Each item with this attribute is automatically appended to the list, even if it is not in the list data yet. This allows you to create a template with a list with a few list items set by default.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-list-item"
+					},
+					{
+						"contents": [
+							{
+								"code": "&lt;nav&gt;\n  &lt;ul data-simply-list=\"menu\" data-simply-path=\"/\"&gt;\n    &lt;template data-simply-template=\"item\"&gt;\n      &lt;li&gt;\n        &lt;a data-simply-field=\"item\"&gt;Item&lt;/a&gt;\n      &lt;/li&gt;\n    &lt;/template&gt;\n  &lt;/ul&gt;\n&lt;/nav&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Specifies the path to store all child data in. Most useful for site navigation and global footers.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-path"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>This attribute is automatically set by SimplyEdit on any item that is user selectable, like list items, fields, etc.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-selectable"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Any element marked with this attribute will be hidden when in edit mode. This allows you to hide certain elements that would otherwise interfere with editing a webpage.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-hidden"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Used to make static images responsive. A static image is an image which is not editable, e.g. a website logo. By using this attribute instead of the normal src attribute, SimplyEdit will look for the best fitting size and set the src automatically. Remember that the image must be uploaded with SimplyEdit so that all the sizes set in the image settings are available.</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "&lt;img data-simply-src=\"logo.png\" alt=\"my logo\"&gt;",
+								"data-simply-template": "code"
+							}
+						],
+						"title": "data-simply-src"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>This attribute is automatically set by SimplyEdit on the <code>body</code> element, when the editor is started. This allows you to check if the editor is started in javascript as well as css:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "body[data-simply-edit] main {\n  padding-top: 60px;\n}",
+								"data-simply-template": "code"
+							}
+						],
+						"title": "data-simply-edit"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Used in combination with <code>data-simply-content=\"template\"</code>, this allows you to specify the default template to use, if no other data is set.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-default-value"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Only applicable on the SimplyEdit script tag, this is your personal API key that is connected to your websites domain. Without a valid key SimplyEdit will not start the editor. Everything else will work without a valid key.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-api-key"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Only applicable on the SimplyEdit script tag, this specifies the name of the settings variable. To read more about the settings, see the chapter titled 'Settings'.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-settings"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Only applicable on the SimplyEdit script tag, this specifies the URL endpoint where SimplyEdit will store the site data. This does not include the images and files, they have a seperate attribute.</p><p>The default storage layer in SimplyEdit will store data through a <code>PUT</code> request to this storage endpoint URL, appended with <code>data/data.json</code>.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-endpoint"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Specifies the root URL to store and retrieve images.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-images"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>Specifies the root URL to store and retrieve files.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-files"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>This attribute is set by SimplyEdit automatically, to keep track of all the fields and lists that have been 'stashed'. This means their data is collected and will be sent to the storage layer to save.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "data-simply-stashed"
+					}
+				]
+			},
+			{
+				"title": "Data Binding",
+				"topics": [
+					{
+						"contents": [
+							{
+								"text": "<p>SimplyEdit automatically initializes a databinding for each field and list it finds in the HTML template. It connects all the data in your data.json to their corresponding fields and lists in the HTML. There is no initialization needed.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "Setup"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>All the fields and lists are added to <code>editor.pageData</code>, which is a shortcut for <code>editor.currentData[{currentpath}]</code>.</p><p>When your site data is loaded from storage, e.g. the data.json file, this data will be inserted into <code>editor.currentData</code>. All the fields in your json that correspond to a field or list in your HTML are automatically bound to their DOM elements. Whenever the <code>editor.currentData</code> changes, so will the DOM.</p><p>The other way around also works. Whenever the DOM changes, SimplyEdit will notice and push the change on its internal stack. With a slight delay this change will then be applied to the <code>editor.currentData</code> as well. This change is not instantanious, by design.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "Update flow"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>You can hook into the databinding flow with a few events. These events are fired by the databinding layer and you can listen in on them:</p><ul><li><code>databind:resolved</code> is fired on the document whenever a change in data is rendered in the DOM.<br></li><li><code>databind:elementresolved</code> is fired on each DOM element whenever a change in data is rendered there.</li></ul><p>In addition these events you can fire yourself to influence the databinding resolution and rendering. You will only need these when working with very large sets of data and changes. Otherwise just let SimplyEdit handle all this automatically.</p><ul><li><code>databinding:valuechanged</code> Fire this when a value is changed in the DOM, but SimplyEdit isn't aware of it. This can happen when you change some elements values through javascript.</li><li><code>databinding:pause</code> Fire this when you are working on a set of changes in a time sensitive javascript routine. Don't forget to fire <code>databinding:resume</code> later and perhaps <code>databinding:valuechanged</code>.</li><li><code>databinding:resume</code> Start the normal databinding flow up again after pausing it.</li></ul>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "Events"
+					}
+				]
+			},
+			{
+				"title": "Data Sources",
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>A data source is a way to use lists of data, without two-way databinding. This has a few advantages:</p><ul><li>Performance: rendering large lists of data performs much better with a data source instead of a data-simply-list.<br></li><li>The contents of a datasource are not stored as-is in SimplyEdit when the user presses save.</li></ul><p>A datasource is automatically loaded and rendered by SimplyEdit. A datasource can only be applied on a list.</p><p>A minimal datasource looks like this:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.addDataSource('myDataSource', {\n    load: function(el, callback) {\n        var data = [1, 2, 3, 4];\n        callback(data);\n    }\n});"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>The name is used to apply the datasource to a SimplyEdit list:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;select data-simply-list=\"options\" data-simply-data=\"myDataSource\" data-simply-entry=\"entry\"&gt;\n    &lt;template&gt;\n        &lt;option data-simply-field=\"entry\"&gt;&lt;/option&gt;\n    &lt;/template&gt;\n&lt;/select&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p><em>Note</em>: Because the data in the datasource doesn't consists of objects with properties, the code above uses the <code>data-simply-entry</code> attribute to define a name (<code>entry</code>) for each entry in the data array.<br></p>"
+							}
+						],
+						"title": "Introduction"
+					},
+					{
+						"title": "editor.addDataSource",
+						"contents": [
+							{
+								"text": "<p>A full list of arguments to addDataSource looks like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "editor.addDataSource(\n    'myDataSource',\n    load: data, // may also be a function, see previous example\n    save: function(stash) {\n    },\n    get: function(list) {\n    },\n    set: function(list, listData) {\n    },\n    applyOnce: true //false is the default\n);",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>The load and save methods manage data retrieval and saving to external sources. The get and set methods manage the same for the internal data retrieval and saving. For example, you can define a datasource that loads data from a Google Spreadsheet and updates the spreadsheet when data is changed in the SimplyEdit editor. For this you use the load and save methods.</p><p>However if you want the user to select which Google spreadsheet to load, you use the get and set methods to store and retrieve this information in the data.json.</p><p>The methods are called in this order:<br></p><p>On loading the <code>data.json</code>:</p><ul><li><code>set(listElement, listData)</code></li><li><code>load(listElement, callback) -&gt; void, call callback(resultListData)</code></li></ul><p>On pressing save</p><ul><li><code>get(listElement) -&gt; returns data to be saved in the data.json</code>&nbsp;</li><li><code>save(stash) -&gt; void</code></li></ul><p>Finally SimplyEdit saves the <code>data.json</code></p><p>In general you probably only need the load, optionally with the save method. Or you just want the get and set methods. Here are a few use cases with the methods you need to override:</p><ul><li>An RSS reader for a specific RSS feed<br>Just needs a load method for a specific URL</li><li>A generic RSS reader<br>Uses a set method to add an attribute to the list specifying which RSS URL to load.<br>Uses the load method to read this attribute and return the RSS data as json.<br>And finally uses the get method to return the RSS URL, which gets saved in the data.json.</li></ul><p>You only need to use the <code>save()</code> method if you want to save data to an external resource, after it is edited in SimplyEdit.</p>"
+							}
+						]
+					},
+					{
+						"title": "The stash",
+						"contents": [
+							{
+								"text": "<p>So what is this stash mentioned in the previous topic? SimplyEdit needs to gather all the data in the current page and send it to the server when you press the save button. It does this by collecting it in something called the stash. But data from a datasource shouldn't get saved in the data.json, so it also creates a stash per datasource.</p><p>This datasource stash contains all the fields and their data, as used in each list that uses the datasource. So if you have a single datasource used by multiple lists, the get() and save() methods on the datasource are called for each list.</p><p>The stash contains the following data:</p><ul><li><code>list</code>: the list element that uses the datasource</li><li><code>dataPath</code>: a representation of the field and list nesting in this page, similar to a JSON pointer</li><li><code>dataName</code>: the name of the list as stored in the <code>data.json</code></li><li><code>data</code>: the list data as returned by <code>load()</code> and perhaps edited by the user</li></ul><p>When you add your own <code>save()</code> method, it is your responsibility to do whatever you need to do to save any changes made by the user back to the external resource, using the information above.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Plugins",
+				"topics": [
+					{
+						"title": "Toolbars",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>SimplyEdit uses a simple plugin system. For historic reasons the terms plugin and toolbars are considered equivalent. Each plugin or toolbar consists of a single file that may contain HTML, CSS and Javascript. Consider the toolbar.simply-icon.html plugin:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;section id=\"simply-icon\" class=\"simply-section\"&gt;\n    &lt;h1&gt;Insert icon toolbar&lt;/h1&gt;\n    &lt;div class=\"simply-toolbar\"&gt;\n        &lt;ul class=\"simply-buttons\"&gt;\n            &lt;li&gt;&lt;button data-simply-action=\"simply-symbol\"&gt;\n                &lt;i class=\"fa fa-rocket\"&gt;&lt;/i&gt;Insert icon\n            &lt;/button&gt;&lt;/li&gt;\n        &lt;/ul&gt;\n    &lt;/div&gt;\n&lt;/section&gt;\n&lt;script type=\"text/javascript\"&gt;\n    editor.addToolbar({\n        \"name\" : \"simply-icon\",\n        \"filter\" : {\n            \"selector\" : \"i.fa\"\n        }\n    });\n&lt;/script&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>This defines a toolbar that allows you to insert an icon using the Font Awesome icon set. Each plugin that has its own UI should define this inside a HTML <code>&lt;section&gt;</code> tag with the class name <code>simply-section</code> and a unique ID. You may define multiple such sections inside a single plugin.</p><p>Then add a &lt;script&gt; tag in which you call the SimplyEdit API to do the real work. In this case the <code>addToolbar()</code> method is called, which requires the name (or ID) of the toolbar definition specified in the HTML earlier. And it requires a filter, which consists of one or more CSS selectors that define when the toolbar becomes visible.</p><p>SimplyEdit only allows one toolbar to be visible at any time. It uses the filter and the selectors inside them to calculate which toolbar has precedence. You can make the filter more specific by adding parent selectors:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.addToolbar({\n    name: 'simply-image',\n    filter: {\n        selector: 'IMG',\n        parent: {\n            selector: '*'\n        }\n    }\n});"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>In this case the image toolbar adds a parent selector that matches everything. This makes the image toolbar filter have a higher precedence than other toolbars that might match on the <code>IMG</code> tag. If you create your own toolbars, you may have to experiment a bit with the correct filter setting. You can ask SimplyEdit to show what scores it has calculated for each toolbar it considered:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "console.log(editor.context.explain);"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>This will print the information for each toolbar SimplyEdit has considered and which toolbar has won. So:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "console.log(editor.context.explain.validFilters);"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Will show all the filters that match the current selection, and their respective scores. Higher is better.<br></p><p>Toolbars can also define actions and an init and update method:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.addToolbar({\n    name: 'my-toolbar',\n    filter: {\n        selector: 'a.my-link',\n        parent: {\n            selector: '*'\n        }\n    },\n    actions: {\n        'my-action': function(el) {\n            alert('This is my action');\n        }\n    },\n    init: function(config) {\n        // intialize your settings\n    },\n    update: function(toolbar) {\n        // update the visible toolbar\n    }\n});"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>The <code>init</code> function is called once, when the editor starts. It passes any information set for this toolbar in the global settings variable, the one named in the script tags <code>data-simply-settings</code> parameter.</p><p>The <code>update</code> function is called whenever the selection changes and this toolbar is visible. It has one argument: the toolbars <code>section</code> element.</p>"
+							}
+						]
+					},
+					{
+						"title": "Other plugins",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Besides toolbars you can add other plugins as well. The only difference really is whether or not you call the <code>editor.addToolbar()</code> method. If you create a plugin that is not strictly a toolbar, consider using the <code>editor.plugins</code> namespace to add your own. e.g.:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;script&gt;\n    editor.plugins.myPlugin = (function() {\n        return {\n            doSomething: function() {\n                alert('This does something');\n            }\n        };\n    })();\n&lt;/script&gt;"
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Actions",
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Actions are labels that connect a user interface or HTML element to a specific javascript function. Actions are defined either in toolbars, in the <code>actions</code> parameter of the <code>editor.addToolbar()</code> method, or as seperate actions using the <code>editor.addAction()</code> method.</p><p>Actions are added to a toolbar button or input element, as a <code>data-simply-action</code> attribute:</p>"
+							},
+							{
+								"code": "&lt;button data-simply-action=\"insert-symbol\"&gt;Insert Symbol&lt;/button&gt;",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>You can create as many buttons or input elements with a certain action as you like. You can specify any action that is added by any toolbar, as long as that toolbar or action is loaded. All actions are defined globally.</p><p><em>Note</em>: actions are only loaded when the toolbars are. So if the editor isn't started, the actions aren't available. SimplyEdit doesn't even check for any <code>data-simply-action</code> attribute untill the toolbars are loaded. So although you can add actions to elements in the normal page content, they will only work once the editor is started.</p>"
+							}
+						],
+						"title": "Introduction"
+					},
+					{
+						"title": "addAction",
+						"contents": [
+							{
+								"text": "<p>You can specify an action explicitly like this:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.addAction('my-action', editor.plugins.myPlugin.myAction);"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Actions only require a name and a method to call. The method has only one argument: the element with the <code>data-simply-action</code> attribute that triggered this action:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.plugins.myPlugin.myAction = function(el) {\n    alert('doing stuff...');\n}"
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Events",
+				"topics": [
+					{
+						"title": "simply-content-loaded",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> when SimplyEdit is finished initializing the page content. It has no parameters. Use this event instead of DocumentReady.</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "document.addEventListener('simply-content-loaded', function() {\n  // page content is loaded in the dom, so now you can work with it\n});",
+								"data-simply-template": "code"
+							}
+						]
+					},
+					{
+						"title": "simply-editmode",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> when the user starts the editor. You can\u2019t prevent this.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-toolbars-loaded",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> when the editor is finished loading all the toolbars and plugins. Use this to change or append to the toolbars.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-data-changed",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> whenever data managed by SimplyEdit changes. It is fired after the change is resolved, so the DOM and the Editor should be in sync.</p><p>Parameters: - dataBinding</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-data-applied",
+						"contents": [
+							{
+								"text": "<p>Fires on a <code>data-simply-list</code>&nbsp;after it has been updated.</p><p>Parameter: - Target list element.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-data-saved",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> after <code>editor.currentData</code> is saved by a storage layer.&nbsp;</p><p>Parameter:<br></p><ul><li><code>newData</code> The saved data as returned by the storage layer.</li><li><code>*</code> Any other parameters may be set by the storage layer.</li></ul>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-storage-init",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> immediately after the storage layer has been initialized.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-storage-file-saved",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> after a file is saved by the storage layer. This event can be cancelled by calling <code>preventDefault()</code> on it. The file will still be saved, but the files dialog won't be updated.</p><p>Parameters</p><ul><li><code>path</code> The path that was passed to the storage layer.</li><li><code>response</code> The http responseText</li><li><code>message</code> An error message, if <code>error</code> is <code>true</code></li><li><code>error</code> Boolean. True if an error occured. The error message is in <code>message</code>.</li></ul>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-storage-file-deleted",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> after a file has been deleted by the storage layer. This event can be cancelled by calling preventDefault() on it. The file will still be deleted, but the files dialog won't be updated.</p><p>Parameters</p><ul><li><code>path</code> The path that was passed to the storage layer.</li><li><code>response</code> The http responseText</li><li><code>message</code> An error message, if error is true</li><li><code>error</code> Boolean. True if an error occured. The error message is in message.</li></ul>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-stash",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> before SimplyEdit starts to collect the data for the storage layer and thus before the data is saved. This event cannot be cancelled. You can use this event to do some data manipulation before the data is saved. Especially useful if you have created data sources that have the <code>editor.currentData</code> as their source.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-stashed",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> after SimplyEdit has collected all the data for the storage layer. This data is now also available in <code>localStorage.data</code>. You could now revert any changes made in the <code>simply-stash</code> event, without affecting the data sent to the storage layer.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-image-save-error",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> after trying to save an image using the storage layer has failed. This event can be cancelled by calling <code>event.preventDefault()</code>. This means that SimplyEdit will not show an error message.</p><p>Parameters</p><ul><li><code>path</code> The path of the image</li><li><code>response</code> The response of the storage layer</li><li><code>message</code> The error message</li><li><code>error</code>&nbsp;<code>true</code></li></ul>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-file-save-error",
+						"contents": [
+							{
+								"text": "<p>Fires on the <code>document</code> after trying to save a file using the storage layer has failed. This event can be cancelled by calling <code>event.preventDefault()</code>. This means that SimplyEdit will not show an error message.</p><p>Parameters</p><ul><li><code>path</code> The path of the file</li><li><code>response</code> The response of the storage layer</li><li><code>message</code> The error message</li><li><code>error</code> <code>true</code></li></ul>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-page-save-error",
+						"contents": [
+							{
+								"text": "<p></p><p>Fires on the <code>document</code> after trying to save a page using the storage layer has failed. This event can be cancelled by calling <code>event.preventDefault()</code>. This means that SimplyEdit will not show an error message.</p><p>Parameters</p><ul><li><code>path</code> The path of the page</li><li><code>response</code> The response of the storage layer</li><li><code>message</code> The error message</li><li><code>error</code> <code>true</code></li></ul>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "simply-selectable-inserted",
+						"contents": [
+							{
+								"text": "<p>Fired on the <code>document</code> whenever a new list item is inserted.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "databind:elementresolved",
+						"contents": [
+							{
+								"text": "<p>Fired on a DOM element whenever its contents have been updated to reflect changes elsewhere.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "databind:resolved",
+						"contents": [
+							{
+								"text": "<p>Fired on the <code>document</code> whenever changes to the DOM have been made to reflect changes in the data structure.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					},
+					{
+						"title": "databinding:valuechanged",
+						"contents": [
+							{
+								"text": "<p>An event you can fire to force the databinding to update the data bound to the field or list the event is fired upon. Some DOM changes cannot be detected automatically. This event allows you to still update the databinding in those cases.</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "field.setAttribute('data-foo','bar');\neditor.fireEvent('databinding:valuechanged',field);",
+								"data-simply-template": "code"
+							}
+						]
+					},
+					{
+						"title": "databinding:pause",
+						"contents": [
+							{
+								"text": "<p>An event you can fire to stop the databinding updates. This can be helpful when you want to change a lot of data at once. By stopping the databinding while you do that, you can greatly increase the performance of the change. Restart the databinding by calling <code>databinding:resume</code>.</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "var list = document.querySelector('#myList');\neditor.fireEvent('databinding:pause', list);\nvar items = list.querySelectorAll(':scope &gt; [data-simply-list-item]');\nfor (var i=0; i&lt;items.length; i++) {\n    list.removeChild(items[i]);\n}\neditor.fireEvent('databinding:resume', list);",
+								"data-simply-template": "code"
+							}
+						]
+					},
+					{
+						"title": "databinding:resume",
+						"contents": [
+							{
+								"text": "<p>An event you can fire to resume the databinding updates. See <code>databinding:pause</code> for more information.</p>",
+								"data-simply-template": "text"
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Storage",
+				"topics": [
+					{
+						"contents": [
+							{
+								"text": "<p>SimplyEdit has support for different storage schemes. By default it will try to autodetect the scheme based on the domain name and the <code>data-simply-endpoint</code> attribute. Out of the box SimplyEdit supports the following storage schemes:</p><ul><li><code>default</code> This assumes SimplyEdit can <code>PUT</code> the <code>data.json</code> file at the specified endpoint, appended with <code>data/data.json</code>.</li><li><code>github</code> This scheme is active on all domains ending on <code>github.io</code>&nbsp;or <code>github.com</code>, or when specified with <code>data-simply-storage=\"github\"</code>.</li><li><code>beaker</code>&nbsp;Active only with <code>data-simply-storage=\"beaker\"</code>.</li><li><code>ariadne</code>&nbsp;Active only with <code>data-simply-storage=\"ariadne\"</code>.</li></ul><p>But besides these, you can write your own storage scheme and plug it into SimplyEdit. Before you do that though, check out if the default storage scheme works for you as-is.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "Introduction"
+					},
+					{
+						"contents": [
+							{
+								"text": "<p>By default SimplyEdit uses a very simple protocol to store and retrieve the data of the whole site. Retrieval is done by making an HTTP GET request to the data-simply-endpoint appended with data/data.json. This json file should have the following format:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "{\n  '/': {..},\n  '/subdir/': {..}\n}",
+								"data-simply-template": "code"
+							},
+							{
+								"text": "<p>Each page in a site is represented with a key denoting the absolute path within the sites domain and an object containing all the data for that page. The properties of this page object are defined in the page template, using the data-simply-field and data-simply-list attributes.</p><p>When you press save, SimplyEdit sends a new GET request for the data.json file and checks that it hasn't changed. If it has, SimplyEdit will try to merge the data automatically. But if that fails, SimplyEdit opens a dialog with the differences highlighted and asks the user to perform the merge by hand.</p><p>Then SimplyEdit sends a PUT request to the exact same location. The contents of the body contain the complete data.json file.</p><p>You can just write your own server-side code to handle this flow and store the contents of the data.json file however you like. You don't have to include all the sites data in the data.json either, just those parts that are needed to render the current page. However, SimplyEdit will only save what you send it in the first place, so if you go this route, it is your responsibility to retrieve and store the correct parts.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "The Default Storage"
+					},
+					{
+						"title": "Custom Storage",
+						"contents": [
+							{
+								"text": "<p>When the default storage schemes aren't sufficient, you can just write your own and plug it into SimplyEdit. For example this storage scheme stores all content in localStorage:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"code": "var myCustomStorage = {\n    init : function(endpoint) {\n        this.endpoint = endpoint;\n    },\n    save : function(data, callback) {\n        localStorage.simplyData = data;\n        callback();\n    },\n    load : function(callback) {\n        if (!localStorage.simplyData) {\n            localStorage.simplyData = \"{}\";\n        }\n        callback(localStorage.simplyData);\n    },\n    connect : function() {\n        return true;\n    },\n    disconnect : function() {\n        return true;\n    }\n};",
+								"data-simply-template": "code"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Then you must tell SimplyEdit to use this storage scheme:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;script src=\"//cdn.simplyedit.io/1/simply-edit.js\"\n    data-simply-storage=\"customStorage\"\n&gt;&lt;/script&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Any storage plugin must include the following methods:</p><ul><li><code>init</code> Called when first initializing the storage scheme with the given endpoint.</li><li><code>save</code> Called when the user presses save.</li><li><code>load</code> Called after initializing and before each save.</li></ul><p>It may also include these methods:</p><ul><li><code>connect</code> Called after init and before load. This allows you to show a login prompt for example.</li><li><code>disconnect</code> Called after pressing logout. This allows you to clean up cookies for example.</li><li><code>list</code> Called whenever a file or image browse dialog is updated. List is called with an endpoint URL and a callback method. It should call the callback method with an object containing three arrays: folders, files and images:</li></ul>"
+							},
+							{
+								"code": "{\n    folders : [\n        {\n             url : \"http://endpoint.com/folder1/\",\n             name : \"Folder 1\"\n        }\n    ],\n    files : [\n        {\n             url : \"http://endpoint.com/myfile.txt\",\n             name : \"myfile.txt\"\n        }\n    ],\n    images : [\n        {\n             url : \"http://endpoint.com/image1.png\",\n             name : \"image1.png\"\n        }\n    ]\n}",
+								"data-simply-template": "code"
+							}
+						]
+					}
+				]
+			},
+			{
+				"title": "Custom Fields",
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>For anything to be editable in SimplyEdit, it has to be defined as a 'field'. SimplyEdit comes with a list of predefined field types, like most INPUT elements, IMG, A, and a generic field type for all other HTML elements.</p><p>A field type defines how content is set and how it is retrieved. It defines a selector that tells SimplyEdit how to recognize the field type, and it defines the behaviour when SimplyEdit is turned on - or switched to editing mode.</p><p>If you want to override the default behaviour for a specific type of content, the best way is to create your own custom field type.</p>"
+							}
+						],
+						"title": "Introduction"
+					},
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>To register a new field type you need 4 things:</p><ul><li>a selector</li><li>a getter function</li><li>a setter function</li><li>an&nbsp;<code style=\"font-weight: normal;\">editable</code> function</li></ul>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.field.registerType(\n    '[data-readonly]',      // selector\n    function(field) {        // getter\n        return field.innerHTML;\n    },\n    function(field, data) {  // setter\n        field.innerHTML = data.innerHTML ? data.innerHTML: data;\n    },\n    function() {             // make editable\n        // do nothing, this item is readonly\n    }\n);"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Any element in the browsers DOM can be turned into a field. Like the example above, it doesn't have to be editable. Aas long as you can get and set its values, you can use it with SimplyEdit's databinding.&nbsp;</p><p>Note that SimplyEdit has default methods you can re-use to make your custom field work more like the default fields in SimplyEdit. You can use these as follows:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.field.registerType(\n    '[data-readonly]',      // selector\n    function(field) {        // getter\n        return editor.field.defaultGetter(field, [\"innerHTML\"]);\n    },\n    function(field, data) {  // setter\n        editor.field.defaultSetter(field, data);\n    },\n    function() {             // make editable\n        // do nothing, this item is readonly\n    }\n);"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Or you can just redefine the parts you want to change:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "editor.field.registerType(\n    '[data-readonly]',\n    null,\n    null,\n    function() {\n    }\n);"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Note: make sure that the data returned by your getter has the exact same format as the data parameter in your setter! If you don't SimplyEdit won't be able to keep your data and the DOM element in sync, but it will keep trying...</p>"
+							}
+						],
+						"title": "Register a custom field type"
+					}
+				]
+			}
+		],
+		"search-results-count": "",
+		"search-results": []
+	},
+	"/simplyview/": {
+		"meta title": "Reference",
+		"chapters": [
+			{
+				"title": "Introduction",
+				"topics": [
+					{
+						"contents": [
+							{
+								"text": "<p>SimplyView is a set of seperate components that allow you to rapidly build web application user interfaces. They are designed to work with modern reactive libraries, like that included in SimplyEdit.</p><p>SimplyView seperates structure - HTML - from behaviour - javascript. There is never a need to write HTML inside your javascript code. There is also never a need to write javascript - or any other kind of code- inside your HTML. This strict seperation allows for a much easier workflow between designers and developers.</p><p>This seperation also makes it possible, even easy, to re-use and upgrade existing web applications. There is no need to rewrite everthing from scratch. SimplyView works well with jQuery. In rare cases you can use the <code>simply.activate</code> component to make sure your legacy javascript can react to changes in the HTML&nbsp; structure.</p>",
+								"data-simply-template": "text"
+							}
+						],
+						"title": "Basic Concepts"
+					}
+				]
+			},
+			{
+				"title": "simply.app",
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.app provides a simple starting point to build web applications:<br></p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>var myApp = simply.app({\n  routes: {</p><p>    '/:section/': function(params) { ... }\n  },</p><p>  commands: { ... },</p><p>  actions: { ... },</p><p>  container: document.getElementById('myApp'),</p><p>  view: {\n    myVariable: 'foo'</p><p>  }</p><p>});</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>It combines simply.route, simply.command, simply.action and simply.view into a single application wrapper.</p>"
+							}
+						],
+						"title": "Overview"
+					}
+				]
+			},
+			{
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.view provides a simple interface to use the databinding from SimplyEdit in a web application:<br></p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>var myView = {</p><p>  foo: 'bar'\n};</p><p>simply.view(myApp, myView);</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>But generally you won't use this directly, but through simply.app:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>var counterApp = simply.app({\n  view: {\n    counter: 1</p><p>  }</p><p>});</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Any <code>data-simply-field</code> you define in your apps HTML is automatically bound to the corresponding entry in the view.<br></p>"
+							}
+						],
+						"title": "Overview"
+					},
+					{
+						"title": "Example",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>A simple example - an app that can count up and down:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>&lt;div id=\"counter\"&gt;\n  &lt;input type=\"text\" data-simply-field=\"counter\"&gt;\n  &lt;button data-simply-command=\"add1\"&gt;+&lt;/button&gt;\n  &lt;button data-simply-command=\"sub1\"&gt;-&lt;/button&gt;\n&lt;/div&gt;</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>var counterApp = simply.app({</p><p>  container: document.getElementById('counter'),</p><p>  commands: {\n    add1: function() { this.app.view.counter++; },</p><p>    sub1: function() { this.app.view.counter--; }</p><p>  },</p><p>  view: {\n    counter: 0</p><p>  }</p><p>};</p>"
+							}
+						]
+					}
+				],
+				"title": "simply.view"
+			},
+			{
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.route is a simple url routing component. It will listen to URL changes and match them against the routes you provide. If a match is found, it will call the matching function and update the address bar without reloading.</p><p>simply.route will run the first matching route handler it finds, in the order in&nbsp; which they were registered.</p>"
+							}
+						],
+						"title": "Overview"
+					},
+					{
+						"title": "simply.route.load",
+						"contents": [
+							{
+								"data-simply-template": "code",
+								"code": "<p>simply.route.load({</p><p>  '/:section/:*': function(params) {</p><p>    loadSection(params.section, params.remainder);\n  },</p><p>  '/': function() {\n    loadHome();\n  }\n</p><div>});</div>"
+							}
+						]
+					},
+					{
+						"title": "simply.route.match",
+						"contents": [
+							{
+								"data-simply-template": "code",
+								"code": "simply.route.match(path);"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>This allows you to trigger a route. You can also provide extra parameters for the route handler:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "simply.route.match(path, { foo: 'bar' });"
+							}
+						]
+					},
+					{
+						"title": "simply.route.goto",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Updates the browsers address bar and matches the path.</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "simply.route.goto(path);"
+							}
+						]
+					},
+					{
+						"title": "simply.route.has",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Returns true if the route is registered.</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "if (simply.route.has(path)) { ... }"
+							}
+						]
+					}
+				],
+				"title": "simply.route"
+			},
+			{
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.command provides a way to tie behaviour (javascript code) to HTML elements.</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;button data-simply-command=\"doSomething\"&gt;does something&lt;/button&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Commands can be set on any HTML element, but the behaviour differs based on the element type:<br></p><ul><li><code>BUTTON</code>, <code>A&nbsp;<span style=\"background-color: rgb(255, 255, 255);\"><br></span></code>Command triggers on click. Value is copied from the data-simply-value attribute.</li><li><code>INPUT</code>, <code>TEXTAREA</code>, <code>SELECT&nbsp;<span style=\"background-color: rgb(255, 255, 255);\"><br></span></code>Command triggers on change. Value is copied from the input value.</li><li><code>FORM&nbsp;<span style=\"background-color: rgb(255, 255, 255);\"><br></span></code>Command triggers on submit. Value is the set of form values.</li><li><code>*</code><br>Command triggers on click. Value is copied from the data-simply-value attribute. Only runs if no other command handlers match.</li></ul><p>If a command is triggered, the default event handler is cancelled. So links aren't followed, forms aren't submitted, etc.</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Initialize the commands like this:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>var commands = simply.command(myApp, {\n  myCommand: function(el, value) {</p><p>    doSomething(value);\n  }\n});</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>For basic applications, commands are sufficient. But once your application gets more complex it pays to limit the code in commands to just the parts that tie into the HTML structure of your application. So searching the DOM, getting attribute values, etc. Once that is done, you should call an internal function that doesn't know anything about the exact HTML structure. simply.action is purpose build to be used in that way. The Todo example shows how you can use this.<br></p>"
+							}
+						],
+						"title": "Overview"
+					},
+					{
+						"title": "commands.action",
+						"contents": [
+							{
+								"text": "<p>Each command function runs with the commands object returned from simply.command as its scope. The action method is a useful shortcut to app.actions:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>var myApp = simply.app({\n  commands: {\n    addTodo: function(form, values) {\n      form.elements.todo.value = '';\n      this.action.call('addTodo', values.todo);\n    }</p><p>  },</p><p>  actions: {\n    addTodo: function(todo) {\n      this.app.view.todos.push(todo);\n    }\n  }\n});</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>The same thing can also be accomplished like this:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "this.app.actions.addTodo(values.todo);"
+							}
+						]
+					},
+					{
+						"title": "commands.call",
+						"contents": [
+							{
+								"text": "<p>Allows you to call a command directly:</p>",
+								"data-simply-template": "text"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "myApp.commands.call('addTodo', el, value);"
+							}
+						]
+					},
+					{
+						"title": "commands.appendHandler",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Adds a command handler on top of the existing ones, so it gets matched first.</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>myApp.commands.appendHandler({\n  match: 'input[type=\"radio\"]',</p><p>  check: function(el, evt) {\n    return (evt.type=='change');\n  },</p><p>  get: function(el) {\n    return el.dataset.simplyValue || el.value;\n  }\n});</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Handler properties:</p><ul><li>match<br>A CSS selector that checks if an element is handled by this command handler.<br></li><li>check<br>A function that checks if the command should be run in this event.</li><li>get<br>A function that returns the value for this command.</li></ul>"
+							}
+						]
+					},
+					{
+						"title": "commands.prependHandler",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Adds a command handler, just like appendHandler. But it adds it first in the list, so it will be matched last. This way you can add handlers with a more generic CSS selector and append more specific handlers.</p>"
+							}
+						]
+					}
+				],
+				"title": "simply.command"
+			},
+			{
+				"topics": [
+					{
+						"title": "Overview",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Actions are a standardized way to define a kind of API for your user interface. They are meant to be used together with routes and commands. In this case the routes and commands are tightly bound to your URL structure and your HTML structure respectively. Actions should be decoupled from those. An action should just be a method that updates the application state. The parameters for an action should be the logical parameters for that update.</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>var myApp = simply.app({\n  commands: {\n    addTodo: function(form, values) {\n      form.elements.todo.value = '';\n      this.app.actions.addTodo(values.todo);\n    }</p><p>  },</p><p>  actions: {\n    addTodo: function(todo) {\n      this.app.view.todos.push(todo);\n    }\n  }\n});</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>By structuring your application in this way, it is easy to add different user interface modes which accomplish the same action. So you can create a route as well as a command, that both trigger the same action. Or later you can add keyboard shortcuts or gestures, without having to copy the logic of your action.</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>You can add actions later by just defining them in the actions object:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>myApp.actions.anotherAction = function(...arguments) {\n   ...\n};</p>"
+							}
+						]
+					}
+				],
+				"title": "simply.action"
+			},
+			{
+				"topics": [
+					{
+						"title": "Overview",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.collect allows you to create auto updating forms, just by adding a few attributes to the form and its elements:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>function getAddress(elements) {<br></p><p>  if (elements.zipcode.value &amp;&amp; elements.housenr.value) {\n    zipcodeAPI\n    .getAddress(elements.zipcode.value,elements.country.value)</p><p>    .then(function(address) {\n      elements.street.value = address.street;</p><p>      elements.city.value = address.city;\n    }\n  }\n}</p><p>simply.collect.addListener('address', getAddress);<br></p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>&lt;form&gt;\n  &lt;div data-simply-collect=\"address\"&gt;\n    &lt;label&gt;\n      Zipcode: &lt;input name=\"zipcode\" data-simply-element=\"zipcode\"&gt;\n    &lt;/label&gt;\n    &lt;label&gt;\n      House NR: &lt;input name=\"housenumber\" data-simply-element=\"housenr\"&gt;\n    &lt;/label&gt;\n    &lt;label&gt;\n      Street: &lt;input name=\"street\" data-simply-element=\"street\"&gt;\n    &lt;/label&gt;\n    &lt;label&gt;\n      City: &lt;input name=\"city\" data-simply-element=\"city\"&gt;\n    &lt;/label&gt;\n  &lt;/div&gt;\n&lt;/form&gt;</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>The listener will get called whenever any of the elements changes. You can add as many forms and as many container elements with <code>data-simply-collect</code> as you want.<br></p>"
+							}
+						]
+					},
+					{
+						"title": "simply.collect.addListener",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Add a collect listener. See the code above in the overview.</p>"
+							}
+						]
+					},
+					{
+						"title": "simply.collect.removeListener",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Removes a previously added listener. You must call removeListener with the exact same name and function as used in addListener:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "simply.collect.removeListener('address', getAddress);"
+							}
+						]
+					},
+					{
+						"title": "simply.collect.update",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.collect only listens for the change event. So if you update an input elements value through javascript, the collect listeners won't trigger, unless you also trigger the change event. simply.collect.update does this for you:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "simply.collect.update(form.elements.zipcode, newZipcode);"
+							}
+						]
+					}
+				],
+				"title": "simply.collect"
+			},
+			{
+				"topics": [
+					{
+						"title": "Overview",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.activate is a component to automatically initialize HTML elements with javascript as they appear in the DOM.</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>simply.activate.addListener('autosize',function(el) {</p><p>  $.autosize(el);\n});</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;textarea data-simply-activate=\"autosize\"&gt;&lt;/textarea&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Now you can use any 'legacy' component, in this case a jQuery textarea resizer, that needs to initialize HTML elements.&nbsp;</p>"
+							}
+						]
+					}
+				],
+				"title": "simply.activate"
+			},
+			{
+				"topics": [
+					{
+						"title": "Overview",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.include is a component that allows you to include external HTML - with CSS and javascript - in the current HTML document. You will need to make sure you don't overwrite global variables, the javascript and css get applied to the whole document.</p><p>This component makes it easy to create microfrontends for microservices, without forcing you to use a specific framework or technology.</p><p>Start by including the simply.include script, or simply.everything.js:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;script src=\"js/simply.everything.js\"&gt;&lt;/script&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Then add a simply-include link at the exact spot where you want to include a widget or application or just a piece of HTML:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "&lt;link rel=\"simply-include\" href=\"/simplyview/widgets/my-widget/index.html\"&gt;&lt;/link&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>Your widget may contain any HTML, CSS and javascript you like, except it shouldn't contain a HEAD. So a widget might look like this:<br></p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>&lt;script src=\"/simplyview/js/simply.everything.js\"&gt;&lt;/script&gt;</p><p>&lt;link rel=\"simply-include-once\" href=\"/simplyview/common/head.html\"&gt;</p><p>&lt;link rel=\"simply-include-once\" href=\"/simplyview/common/menu.html\"&gt;</p><p>&lt;link rel=\"stylesheet\" href=\"/simplyview/widgets/my-widget/style.css\"&gt;</p><p>&lt;div class=\"my-widget\"&gt;\n  ....</p><p>&lt;/div&gt;</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>\u200bThe widget includes some common HTML, but only if it wasn't included before. Assuming your pages all include the common head and menu, the widget will skip this if the widget is included in a page. However you can also call the widget as a normal page. In that case the common head and menu will be included and the widget will decorate itself with the default styling and menu.</p><p>simply.include will automatically detect <code>&lt;link rel=\"simply-include(-once)\"&gt;</code> links in the DOM, no matter when and how they appear, and replace them with the HTML fetched from the linked href.</p>"
+							}
+						]
+					},
+					{
+						"title": "Security",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.include is meant to include HTML with CSS and javascript into an existing document. So you must take care that whatever you include is what you meant to include. If you allow user input, you must make sure that it doesn't have <code>&lt;link rel=\"simply-include(-once)\"&gt;</code> tags. Or that if they do, they won't get executed.</p><p>As a baseline, always clean user input of any offending tags, or even better: clean it of all HTML. If that can't be done, make sure you use a whitelist of acceptable tags. Finally as a catchall, use <a href=\"https://en.wikipedia.org/wiki/Content_Security_Policy\">Content-Security-Policy headers</a> to only allow script execution of whitelisted URL's. Don't allow inline scripts or you will still be open to <a href=\"https://en.wikipedia.org/wiki/Cross-site_scripting\">Cross Site Scripting attacks (XSS)</a>.<br></p>"
+							}
+						]
+					}
+				],
+				"title": "simply.include"
+			},
+			{
+				"topics": [
+					{
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>This component is still experimental, so use with care. simply.observe listens for changes in objects and calls callback functions when changes happen. This can be used to build reactive components, that automatically update and do stuff whenever data changes.</p><p>A very simple example shows a JSON encoded version of an object in a PRE element. It updates to reflect any change in the object:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<p>&lt;pre id=\"json\"&gt;&lt;/pre&gt;\n&lt;script&gt;</p><p>  var root = {</p><p>    observed: {</p><p>      foo: 'bar',</p><p>      list: [ 'a','b','c' ],</p><p>      nested: {\n        structures: 'work'</p><p>      }\n    }\n  };</p><p>  simply.observe(root, 'observed', function(value) {\n    document.getElementById('json').innerHTML = JSON.stringify(value, null, 4);</p><p>  });\n&lt;/script&gt;</p>"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>simply.observe currently uses javascripts setter and getter functionality to listen for changes. This has the benefit of broad browser support, so IE from at least version 9 is supported. However it also means that some change operations are not supported:<br></p><ul><li><code>delete foo.bar</code>&nbsp;is not supported, use foo.bar = null instead</li><li>adding a previously unknown property is not supported</li></ul><p>The simply.observe function will only add setters and getters where needed, so you can use as large a dataset as you like without significant performance impact. Just remember that for simply.observe to work properly, it will add setters and getters for all the parents and all the children of the path you pass as the second parameter.&nbsp;</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "simply.observe(root, 'observed.nested', console.log)"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>This will add setters and getters on <code>root</code>, <code>root.observed</code>, <code>root.observed.nested</code> and <code>root.observed.nested.structures</code>, but not on <code>root.observed.foo</code> or <code>root.observed.list</code>.<br></p><p>It is important that the root itself is not reassigned. All the information about observers is tied to that object. You can however change any of its children in any way you like. In the above case, where an observer is linked to the <code>root.observed.nested</code> property, you can reassign <code>root.observed</code> or make it <code>null</code>. If the value is no longer available, the listener will be called with the value set to <code>undefined</code>. If the propert exists, the value will be its current value.</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "root.observed.nested = null; // &gt; null"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "root.observed = {}; // &gt; undefined"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "root.observed = { nested: 'newvalue' }; // &gt; 'newvalue'"
+							}
+						],
+						"title": "Overview"
+					}
+				],
+				"title": "simply.observe"
+			},
+			{
+				"title": "Examples",
+				"topics": [
+					{
+						"title": "Counter",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>The counter app is an example to introduce the basic concepts. Here is the HTML:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC5\" class=\"blob-code blob-code-inner js-file-line\">&lt;<span class=\"pl-ent\">div</span> <span class=\"pl-e\">id</span>=<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>counterApp<span class=\"pl-pds\">\"</span></span>&gt;</td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC6\" class=\"blob-code blob-code-inner js-file-line\">    &lt;<span class=\"pl-ent\">input</span> <span class=\"pl-e\">type</span>=<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>text<span class=\"pl-pds\">\"</span></span> <strong><span class=\"pl-e\">data-simply-field</span>=<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>counter<span class=\"pl-pds\">\"</span></span></strong>&gt;</td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC7\" class=\"blob-code blob-code-inner js-file-line\">    &lt;<span class=\"pl-ent\">button</span> <strong><span class=\"pl-e\">data-simply-command</span>=<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>add1<span class=\"pl-pds\">\"</span></span></strong>&gt;+&lt;/<span class=\"pl-ent\">button</span>&gt;</td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC8\" class=\"blob-code blob-code-inner js-file-line\">    &lt;<span class=\"pl-ent\">button</span> <strong><span class=\"pl-e\">data-simply-command</span>=<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>sub1<span class=\"pl-pds\">\"</span></span></strong>&gt;-&lt;/<span class=\"pl-ent\">button</span>&gt;</td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC9\" class=\"blob-code blob-code-inner js-file-line\">    &lt;<span class=\"pl-ent\">div</span>&gt;Counter is now: &lt;<span class=\"pl-ent\">span</span> <strong><span class=\"pl-e\">data-simply-field</span>=<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>counter<span class=\"pl-pds\">\"</span></span></strong>&gt;&lt;/<span class=\"pl-ent\">span</span>&gt;&lt;/<span class=\"pl-ent\">div</span>&gt;</td>\n      </tr>\n      <tr>\n        </tr></tbody></table>&lt;/div&gt;"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p>It uses two components of SimplyView and SimplyEdit, through&nbsp;<code>data-simply-command</code> and <code>data-simply-field</code>.</p><p>data-simply-command is handled by simply.command. Both commands are defined on buttons, so they will trigger when the button is pressed. The javascript code tied to these commands is defined with the simply.app component:</p>"
+							},
+							{
+								"data-simply-template": "code",
+								"code": "<table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC21\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-k\"><span class=\"pl-s1\">var</span></span><span class=\"pl-s1\"> counterApp </span><span class=\"pl-k\"><span class=\"pl-s1\">=</span></span><span class=\"pl-s1\"> </span><strong><span class=\"pl-s1\"><span class=\"pl-smi\">simply</span></span><span class=\"pl-s1\">.</span><span class=\"pl-s1\"><span class=\"pl-en\">app</span></span></strong><span class=\"pl-s1\">({</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC22\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">    container</span><span class=\"pl-s1\"><span class=\"pl-k\">:</span></span><span class=\"pl-s1\"> </span><span class=\"pl-c1\"><span class=\"pl-s1\">document</span></span><span class=\"pl-s1\">.</span><span class=\"pl-c1\"><span class=\"pl-s1\">getElementById</span></span><span class=\"pl-s1\">(</span><span class=\"pl-s\"><span class=\"pl-s1\"><span class=\"pl-pds\">'</span></span><span class=\"pl-s1\">counterApp</span><span class=\"pl-pds\"><span class=\"pl-s1\">'</span></span></span><span class=\"pl-s1\">),</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC23\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">    <strong>commands</strong></span><span class=\"pl-k\"><span class=\"pl-s1\">:</span></span><span class=\"pl-s1\"> {</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC24\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\"><span class=\"pl-en\">        <strong>add1</strong></span></span><span class=\"pl-k\"><span class=\"pl-s1\">:</span></span><span class=\"pl-s1\"> </span><span class=\"pl-s1\"><span class=\"pl-k\">function</span></span><span class=\"pl-s1\">() {</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC25\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\"><span class=\"pl-smi\">            counterApp</span></span><span class=\"pl-s1\">.</span><span class=\"pl-s1\"><span class=\"pl-smi\">view</span></span><span class=\"pl-s1\">.</span><span class=\"pl-smi\"><span class=\"pl-s1\">counter</span></span><span class=\"pl-s1\"><span class=\"pl-k\">++</span></span><span class=\"pl-s1\">;</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC26\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">        },</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC27\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\"><span class=\"pl-en\">        <strong>sub1</strong></span></span><span class=\"pl-s1\"><span class=\"pl-k\">:</span></span><span class=\"pl-s1\"> </span><span class=\"pl-s1\"><span class=\"pl-k\">function</span></span><span class=\"pl-s1\">() {</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC28\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\"><span class=\"pl-smi\">            counterApp</span></span><span class=\"pl-s1\">.</span><span class=\"pl-s1\"><span class=\"pl-smi\">view</span></span><span class=\"pl-s1\">.</span><span class=\"pl-s1\"><span class=\"pl-smi\">counter</span></span><span class=\"pl-s1\"><span class=\"pl-k\">--</span></span><span class=\"pl-s1\">;</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC29\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">        }</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC30\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">    },</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC31\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">    view</span><span class=\"pl-s1\"><span class=\"pl-k\">:</span></span><span class=\"pl-s1\"> {</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC32\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">        counter</span><span class=\"pl-k\"><span class=\"pl-s1\">:</span></span><span class=\"pl-s1\"> </span><span class=\"pl-s1\"><span class=\"pl-c1\">1</span></span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table><table class=\"highlight tab-size js-file-line-container\" data-tab-size=\"8\"><tbody><tr><td id=\"LC33\" class=\"blob-code blob-code-inner js-file-line\"><span class=\"pl-s1\">    }</span></td>\n      </tr>\n      <tr>\n        </tr></tbody></table>});"
+							},
+							{
+								"data-simply-template": "text",
+								"text": "<p><code>simply.app</code> is a wrapper that combines a number of components with a single configuration parameter. The commands section here is passed on to <code>simply.command</code>.&nbsp;</p><p>When you press the button with <code>data-simply-command=\"add1\"</code>, the command handler for this app is triggered and searches its commands for 'add1'. It then calls this javascript function and it will increase <code>counterApp.view.counter</code>.</p><p>This is where the second component, which uses <code>data-simply-field</code>, comes in. The <code>counterApp.view</code> object is automatically tied to SimplyEdit, by <code>simply.app</code>. So whenever you update a variable inside <code>counterApp.view</code>, SimplyEdit will also update any HTML element which references the same variable. In this case <code>counterApp.view.counter</code> is tied to the input element with <code>data-simply-field=\"counter\"</code>.</p><p>SimplyEdit also does the reverse, whenever you change the input value, SimplyEdit will also change the <code>counterApp.view.counter</code> value. This is called two-way databinding.</p><p>Two-way databinding is not instantanous, so whenever you change a value in javascript or in the DOM, it will take a short while for SimplyEdit to update the other side as well. There are a <a href=\"/#events\">number of events</a> that will tell you when the values are in sync again.</p>"
+							}
+						]
+					},
+					{
+						"title": "Todo",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>The TodoMVC application is a standard web application implemented in many different javascript frameworks. We've build one using SimplyEdit and SimplyView, which you can find at <a href=\"https://todomvc.simplyedit.io/\">https://todomvc.simplyedit.io/</a>.</p><p>The code is on github at <a href=\"https://github.com/simplyedit/todomvc\">https://github.com/simplyedit/todomvc</a>. The Readme explains how it is build.</p>"
+							}
+						]
+					},
+					{
+						"title": "Hackernews PWA",
+						"contents": [
+							{
+								"data-simply-template": "text",
+								"text": "<p>Just like the TodoMVC application, the Hackernews PWA is also a standard web application implemented in many frameworks. You can find the SimplyEdit/SimplyView version at <a href=\"https://hnpwa.simplyedit.io/\">https://hnpwa.simplyedit.io/</a>. The code is at <a href=\"https://github.com/simplyedit/hnpwa\">https://github.com/simplyedit/hnpwa</a> and the Readme explains how it was built.&nbsp;</p>"
+							}
+						]
+					}
+				]
+			}
+		],
+		"search-results-count": "",
+		"search-results": [],
+		"title": "SimplyView Reference",
+		"mobile title": {
+			"href": "#",
+			"class": null,
+			"alt": null,
+			"title": null,
+			"innerHTML": "SimplyView Reference",
+			"name": null
+		}
+	}
+}

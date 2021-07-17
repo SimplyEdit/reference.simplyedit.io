@@ -1,0 +1,377 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+		<title data-simply-field="meta title">Reference</title>
+		<link rel="stylesheet" href="https://media.readthedocs.org/css/sphinx_rtd_theme.css" type="text/css">
+		<link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+		<style>
+			.se-nav {
+				display: none;
+			}
+			body[data-simply-edit] .se-nav {
+				display: block;
+			}
+			div.code {
+				background-color: white;
+				font-family: courier;
+				white-space: pre;
+				padding: 1em;
+				font-size: 0.9rem;
+				line-height: 1.3rem;
+			}
+			div.code p {
+				font-size: 0.9rem;
+				line-height: 1.3rem;
+				margin: 0;
+				padding: 0;
+			}
+			div.text:before,
+			div.code:before {
+				margin-left: -40px;
+				left: 0px;
+			}
+			.wy-side-nav-search input {
+			    width: 100%;
+			    border-radius: 50px;
+			    padding: 6px 12px;
+			    border-color: #2472a4
+			}
+			.logo {
+				display: block;
+				width: 200px !important;
+			}
+			.wy-side-nav-search {
+				background-image: url(alt_wide_2.svg);
+				background-size: cover;
+				background-position: bottom;
+			}
+			.rst-content ul {
+			    line-height: 24px;
+			    margin-bottom: 24px;
+			}
+			.rst-content li {
+				list-style: disc;
+				margin-left: 24px;
+			}
+			.wy-menu-vertical li.current li > span {
+			    color: gray;
+			    border-right: solid 1px #c9c9c9;
+			    padding: .4045em 2.427em;
+			    display: block;
+			}
+			.highlight {
+			  animation: highlight 1s ease;
+			}
+			a span.title {
+				display: block;
+			}
+			@keyframes highlight {
+			  from { background: orange; }
+			  to { background: transparent; }
+			}
+			.search-results {
+				display: none;
+			    position: fixed;
+			    z-index: 1000;
+			    top: 103px;
+			    background-color: #fcfcfc;
+			    padding: 50px;
+			    padding-top: 100px;
+			    box-shadow: 0 0 5px #888;
+			    top: 50px;
+			    left: 300px;
+			    right: 50px;
+			    min-height: 400px;
+			    bottom: 50px;
+			    overflow: auto;
+    		}
+    		.search-results h1 {
+    		    position: fixed;
+			    background-color: orange;
+			    color: white;
+			    padding: 20px 50px;
+			    right: 50px;
+			    top: 50px;
+			    left: 300px;
+			    box-sizing: border-box;
+    		}
+    		.snippet div.code {
+    		    border: 1px solid #e1e4e5;
+			    margin: 1px 0 24px 0;
+    		}
+    		[data-simply-action="goto"] {
+    			cursor: pointer;
+    		}
+    		.see-also {
+    			border-top: 1px solid #888;
+    		}
+		</style>
+	</head>
+	<body class="wy-body-for-nav" data-simply-path="/">
+		<div class="wy-grid-for-nav">
+			<nav data-toggle="wy-nav-shift" class="wy-nav-side">
+				<div class="wy-side-scroll">
+					<div class="wy-side-nav-search">
+						<a href="#">
+							<img src="logo.svg" class="logo">
+						</a>
+						<div class="version">1.20</div>
+						<div role="search">
+							<form id="rtd-search-form" class="wy-form">
+								<input type=text" name="q" placeholder="Search docs">
+							</form>
+						</div>
+					</div>
+					<div class="wy-menu wy-menu-vertical">
+						<ul data-simply-list="chapters" data-simply-sortable="true">
+							<template>
+								<li class="toctree-l1">
+									<a class="reference internal"><span class="title" data-simply-action="show" data-simply-field="title">Chapter title</span></a>
+									<ul data-simply-list="topics" data-simply-sortable="true">
+										<template>
+											<li class="toctree-l2"><span data-simply-action="show" data-simply-field="title">Topic title</span></li>
+										</template>
+									</ul>
+								</li>
+							</template>
+						</ul>
+						<nav class="se-nav">
+							<button data-simply-action="add-chapter">Add chapter</button>
+						</nav>
+					</div>
+                    <div class="see-also wy-menu wy-menu-vertical">
+                        <ul>
+                            <li><a href="/simplyview/">SimplyView reference</a></li>
+                        </ul>
+                    </div>
+				</div>
+			</nav>
+			<section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+				<nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+					<i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+					<a href="#">SimplyEdit Reference</a>
+				</nav>
+				<div class="wy-nav-content">
+	        		<div class="rst-content" data-simply-list="chapters" data-simply-sortable="true">
+						<template>
+							<section class="chapter">
+								<h1 data-simply-field="title">Chapter name</h1>
+								<div data-simply-list="topics">
+									<template>
+										<div class="topic">
+											<h2 data-simply-field="title">Topic title</h2>
+											<div data-simply-list="contents" data-simply-sortable="true">
+												<template data-simply-template="text">
+													<div class="text" data-simply-field="text"><p>Text goes here!</p></div>
+												</template>
+												<template data-simply-template="code">
+													<div class="highlight-default">
+														<div class="highlight">
+															<div class="code" data-simply-field="code">All the codes</div>
+														</div>
+													</div>
+												</template>
+											</div>
+											<nav class="se-nav">
+												<button data-simply-action="add-text">Add text</button>
+												<button data-simply-action="add-code">Add code</button>
+											</nav>
+										</div>
+									</template>
+								</div>
+								<nav class="se-nav">
+									<button data-simply-action="add-topic">Add topic</button>
+								</nav>
+							</section>
+						</template>
+					</div>
+				</div>
+			</section>
+		</div>
+		<section class="search-results">
+			<h1>Search Results</h1>
+			<p data-simply-field="search-results-count"></p>
+			<div data-simply-list="search-results">
+				<template>
+					<div class="chapter">
+						<h2 data-simply-action="goto" data-simply-field="title">chapter</h2>
+						<div data-simply-list="topics">
+							<template>
+								<div class="topic">
+									<h3 data-simply-action="goto" data-simply-field="title">topic</h3>
+									<div data-simply-list="snippets">
+										<template>
+											<div class="snippet" data-simply-field="snippet">snippet</div>
+										</template>
+									</div>
+								</div>
+							</template>
+						</div>
+					</div>
+				</template>
+			</div>
+		</section>
+		<script src="https://canary.simplyedit.io/1/simply-edit.js"
+			data-api-key="abounding-porter-5830"
+			data-simply-storage="beaker"
+			data-simply-endpoint="/"
+		></script>
+		<script src="/json-css.js"></script>
+		<script>
+			document.body.addEventListener("click", function(evt) {
+				var target = evt.target;
+				var action = target.getAttribute("data-simply-action");
+				switch (action) {
+					case "add-topic" : 
+						editor.data.get(target.parentNode.previousElementSibling).push({});
+					break;
+					case "add-chapter" :
+						editor.data.get(target.parentNode.previousElementSibling).push({});
+					break;
+					case "add-text" :
+						editor.data.get(target.parentNode.previousElementSibling).push({
+							"data-simply-template" : 'text'
+						});
+					break;
+					case "add-code" :
+						editor.data.get(target.parentNode.previousElementSibling).push({
+							"data-simply-template" : 'code'
+						});
+					break;
+					case "show" :
+						var elements = target.dataBinding.elements;
+						for (var i=0; i<elements.length; i++) {
+							if (!elements[i].getAttribute('data-simply-action')) {
+								elements[i].scrollIntoView();
+								highlight(elements[i]);
+							}
+						}
+						document.querySelector('.search-results').style.display='';
+					break;
+					case "goto":
+						var elements = target.dataBinding.config.data.node._bindings_.title.elements;
+						for (var i=0; i<elements.length; i++) {
+							if (!elements[i].getAttribute('data-simply-action')) {
+								elements[i].scrollIntoView();
+								highlight(elements[i]);
+							}
+						}
+						document.querySelector('.search-results').style.display='';
+					break;
+				}
+			}, true);
+
+			document.body.addEventListener('click', function(evt) {
+				var target = evt.target;
+				while (target && target.tagName!='A') {
+					target = target.parentElement;
+				}
+				if (target && target.tagName=='A' && target.classList.contains('reference')) {
+					var current = document.querySelector('li.current');
+					if (current) {
+						current.classList.remove('current');
+					}
+					target.parentElement.classList.add('current');
+				}
+			});
+
+			function highlight(target) {
+				target.classList.add("highlight");
+				window.setTimeout(function() {
+					target.classList.remove("highlight");
+				}, 1500);
+			}
+
+			var searcher;
+			document.addEventListener('simply-content-loaded', function() {
+				editor.pageData = editor.currentData['/'];
+				searcher = jsonCSS.init(editor.pageData);
+				//editor.search.init(editor.pageData);
+			});
+
+			function escapeRegExp(str) {
+			  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+			}
+
+			document.getElementById('rtd-search-form').onsubmit = function(evt) {
+				editor.pageData['search-results'] = [];
+				editor.pageData['search-results-count'] = 'Searching...';
+				document.querySelector('.search-results').style.display="block";
+				window.setTimeout(function() {
+					var query = evt.target.q.value;
+					// find topics with the search term
+					var topics = searcher.query('topics > *','[value*="'+query.replace('"','&quot;')+'"]');
+					// find the chapters corresponding with each topic
+					var chapters = {};
+					var resultCount = (topics.length ? topics.length + ' results found' : 'no results found');
+					topics.forEach(function(topic) {
+						var path = Object.entries(topic.value._bindings_)[0][1].parentKey;
+						// -> /chapter/{index}/topics/{index}/
+						var chapter = path.substr(1).split('/')[1];
+						if (typeof chapters[chapter] == 'undefined') {
+							chapters[chapter] = [];
+						}
+						chapters[chapter].push(topic.value);
+					});
+					var results = [];
+					Object.keys(chapters).forEach(function(chapterIndex) {
+						var chapter = editor.pageData.chapters[chapterIndex];
+						var entry = {
+							node: chapter,
+							title: chapter.title,
+							topics: []
+						};
+
+						chapters[chapterIndex].forEach(function(topic) {
+							var topicEntry = {
+								node: topic,
+								title: topic.title,
+								snippets: []
+							}
+							var matchFound = false;
+							topic.contents.forEach(function(content) {
+								// find three line snippet around search term
+								switch(content['data-simply-template']) {
+									case 'code':
+										// match from one line before to one line after search term
+										var re = new RegExp('(^.*[\\s\\S]){0,1}^.*('+escapeRegExp(query)+').*([^\\n]*[\\s\\S].*){0,1}','m');
+										var snippet = re.exec(content.code.replace(/(<([^>]+)>)/ig));
+										if (snippet) {
+											matchFound = true;
+											topicEntry.snippets.push({
+												snippet: '<div class="code">&hellip;\n'+snippet[0]+'\n&hellip;</div>'
+											});
+										}
+									break;
+									case 'text':
+									default:
+										// find sensible part of the html, strip tags?
+										// strip tags -> &lt;.*&gt;
+										var re = new RegExp('(\\w+\\s*){0,3}(\\w*'+escapeRegExp(query)+'\\w*)(\\s*\\w+){0,3}','g');
+										var snippet = re.exec(content.text.replace(/(<([^>]+)>)/ig));
+										if (snippet) {
+											matchFound = true;
+											topicEntry.snippets.push({
+												snippet: '<p>&hellip; '+snippet[0]+' &hellip;</p>'
+											});
+										}
+									break;
+								}
+							});
+							entry.topics.push(topicEntry);
+							results.push(entry);
+						});
+					});
+
+					editor.pageData['search-results-count'] = resultCount;
+					editor.pageData['search-results'] = results;
+				}, 10);
+				evt.preventDefault();
+				return false;
+			}
+		</script>
+		<script src="/login-helper.js"></script>
+	</body>
+</html>
